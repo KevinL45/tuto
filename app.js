@@ -40,13 +40,17 @@ app.use((req,res,next) => { //requete http, response http, fonction suivante
      }
  ]
 
+ let MemberRouter = express.Router()
+ MemberRouter.route('/')
+ MemberRouter.route('/:id')
+
  ///////////////////////////RECUPERATION DES MEMBRES ////////////////////////
 
  app.get('/api/members', (req,res)=> {
      if(req.query.max != undefined && req.query.max > 0){ //si la requête contient un paramètre max
          res.json(success(members.slice(0, req.query.max))) //on renvoie les membres de 0 a max
      } else if (req.query.max != undefined) {// si la requete contient un parametre vide 
-         res.json(error("wrong max value")) //on renvoi un parametre vide 
+         res.json(error("Mauvaise valeur")) //on renvoi un parametre vide 
      } else {
          res.json(success(members)) //sinon on retourne tous les membres 
      }
@@ -76,7 +80,7 @@ app.use((req,res,next) => { //requete http, response http, fonction suivante
          })
          res.json(success(members))  //on retourne le tableau des membres  
          } else {
-             res.json(error("missing name "))// sinon renvoie une erreur
+             res.json(error("nom manquant"))// sinon renvoie une erreur
          }
  })
 
@@ -94,7 +98,7 @@ app.put('/api/members/:id', (req, res) => { //c'est la route
             member.name = req.body.name //on modifie le nom du membre avec l'id passé en parametre dans l'url
             res.json(success(members)) //on retourne le tableau des membres 
         } else {
-             res.json(error("missing name")) // sinon renvoie une erreur 
+             res.json(error("nom manquant")) // sinon renvoie une erreur 
         }
         res.json(success(members[index]))// sinon retourne le membre 
     }
@@ -120,7 +124,7 @@ app.delete('/api/members/:id',(req,res)=>{
 
 
 app.listen(8000, ()=> {
-    console.log('started')
+    console.log('Commencer')
 })
 
 function getIndex(id) { //function qui récupere l'index du membre
@@ -129,7 +133,7 @@ function getIndex(id) { //function qui récupere l'index du membre
             return i 
         }
     }
-    return "wrong id"
+    return "Mauvais id"
 }
 
 function createId() { 
